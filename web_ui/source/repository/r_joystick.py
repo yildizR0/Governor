@@ -18,7 +18,6 @@ class JoystickRepo():
 
     def serial_write(self, y, x, rawy, rawx):
         self.arduino.write(f"{y},{x}\n".encode())
-        self.arduino.flush()
         filename = f"frames/{self.frame_uuid}_frame_{self.frame_id:04d}.jpg"
         self.frame_buffer.append((filename, self.camera.capture_array()))
         self.csv_buffer.append((filename, rawy, rawx))
