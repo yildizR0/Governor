@@ -16,6 +16,7 @@ class JoystickRepo():
         self.initate_csv()
         self.frame_id = 0
         self.buffers = deque(maxlen=500)
+        threading.Thread(target=self.bytes2disk, daemon=True).start()
 
     def initiate_camera(self):
         self.camera = Picamera2()
@@ -38,11 +39,14 @@ class JoystickRepo():
                 cv2.imwrite(filename, frame)
 
     def serial_write(self, y,x, rawy, rawx):
-        self.device.write(f"{y},{x}\n".encode())
-        filename = f"frames/frame_{self.frame_id:04d}.jpg"
-        self.writer.writerow([filename, rawy, rawx])
-        frame = self.camera.capture_array()
-        self.buffers.append((filename, frame))
-        frame_id += 1
+        try:
+            self.device.write(f"{y},{x}\n".encode())
+            filename = f"frames/frame_{self.frame_id:04d}.jpg"
+            self.writer.writerow([filename, rawy, rawx])
+            frame = self.camera.capture_array()
+            self.buffers.append((filename, frame))
+            self.frame_id += 1
+        except:
+            pass
 
 
