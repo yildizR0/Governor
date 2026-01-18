@@ -1,4 +1,4 @@
-import cv2, csv
+import cv2, csv, time
 
 class Bytes2Disk():
     def __init__(self, framebuffer, csvbuffer):
@@ -11,12 +11,16 @@ class Bytes2Disk():
 
     def save_frame(self):
         while True:
-            while self.frame_buffer:
+            if self.frame_buffer:
                 filename, frame = self.frame_buffer.popleft()
                 cv2.imwrite(filename, frame)
+            else:
+                time.sleep(0.01)
 
     def save_csv(self):
         while True:
-            while self.csv_buffer:
+            if self.csv_buffer:
                 filename, y, x = self.csv_buffer.popleft()
                 self.csv_writer.writerow([filename, y, x])
+            else:
+                time.sleep(0.01)

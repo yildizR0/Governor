@@ -30,8 +30,8 @@ viewmodel_joystick = vm_joystick.JoystickViewModel(repo_joystick, state)
 @ui.page('/steuern')
 def joystick_view():
     v_joystick.JoystickView(viewmodel_joystick)
-    threading.Thread(target=b2d.save_frame, daemon=True).start()
-    threading.Thread(target=b2d.save_csv, daemon=True).start()
-
 
 ui.run(title="GovernorBOT WebUI", reload=False, show=False)
+
+threading.Thread(target=b2d.save_frame, daemon=True).start()
+threading.Thread(target=b2d.save_csv, daemon=True).start()
