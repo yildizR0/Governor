@@ -3,54 +3,24 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
 sys.path.insert(0, parent_dir_path)
 
-from picamera2 import Picamera2
-import os, random, threading, cv2, time, csv, serial
-from collections import deque
+import os
 import uuid
 
 class JoystickRepo():
-    def __init__(self):
+    def __init__(self, arduino, camera, framebuffer, csvbuffer):
         super().__init__()
-        os.makedirs(os.path.join(os.getcwd() ,"frames"), exist_ok=True)
-        self.device = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.01)
-        self.initiate_camera()
-        self.initate_csv()
+        self.arduino = arduino
+        self.camera = camera
+        self.frame_buffer = framebuffer
+        self.csv_buffer = csvbuffer
         self.frame_id = 0
-        self.random_uuid = uuid.uuid1()
-        self.buffers = deque(maxlen=500)
-        threading.Thread(target=self.bytes2disk, daemon=True).start()
-
-    def initiate_camera(self):
-        self.camera = Picamera2()
-        config = self.camera.create_video_configuration(
-            {"size": (320, 240), "format": "RGB888"},
-            controls={"FrameRate": 21}
-        )
-        self.camera.configure(config)
-        self.camera.start()
-
-    def initate_csv(self):
-        csv_file = open("data.csv", "w", newline="")
-        self.writer = csv.writer(csv_file)
-        self.writer.writerow(["filename", "y", "x"])
-
-    def bytes2disk(self):
-        while True:
-            while self.buffers:
-                filename, frame = self.buffers.popleft()
-                cv2.imwrite(filename, frame)
-
-    def capture_frame(self, filename):
-        self.buffers.append((filename, self.camera.capture_array()))
-
-    def write_csv(self, filename, y, x):
-        self.writer.writerow([filename, y, x])
+        self.frame_uuid = uuid.uuid1()
 
     def serial_write(self, y, x, rawy, rawx):
-        self.device.write(f"{y},{x}\n".encode())
+        self.arduino.write(f"{y},{x}\n".encode())
         filename = f"frames/{self.random_uuid}_frame_{self.frame_id:04d}.jpg"
-        self.capture_frame(filename)
-        self.write_csv(filename, rawy, rawx)
+        self.frame_buffer.append((filename, self.camera.capture_array()))
+        self.csv_buffer.append((filename, rawy, rawx))
         self.frame_id += 1
 
 
