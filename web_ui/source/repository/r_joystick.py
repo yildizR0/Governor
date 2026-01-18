@@ -6,6 +6,7 @@ sys.path.insert(0, parent_dir_path)
 from picamera2 import Picamera2
 import os, random, threading, cv2, time, csv, serial
 from collections import deque
+import uuid
 
 class JoystickRepo():
     def __init__(self):
@@ -15,6 +16,7 @@ class JoystickRepo():
         self.initiate_camera()
         self.initate_csv()
         self.frame_id = 0
+        self.random_uuid = uuid.uuid1()
         self.buffers = deque(maxlen=500)
         threading.Thread(target=self.bytes2disk, daemon=True).start()
 
@@ -41,12 +43,12 @@ class JoystickRepo():
     def serial_write(self, y,x, rawy, rawx):
         try:
             self.device.write(f"{y},{x}\n".encode())
-            filename = f"frames/frame_{self.frame_id:04d}.jpg"
+            filename = f"frames/{self.random_uuid}_frame_{self.frame_id:04d}.jpg"
             self.writer.writerow([filename, rawy, rawx])
             frame = self.camera.capture_array()
             self.buffers.append((filename, frame))
             self.frame_id += 1
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
 
