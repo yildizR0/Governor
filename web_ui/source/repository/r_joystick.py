@@ -11,7 +11,7 @@ class JoystickRepo():
     def __init__(self):
         super().__init__()
         os.makedirs(os.path.join(os.getcwd() ,"frames"), exist_ok=True)
-        self.device = serial.Serial("/dev/ttyUSB1", 115200, timeout=0.01)
+        self.device = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.01)
         self.initiate_camera()
         self.initate_csv()
         self.frame_id = 0
