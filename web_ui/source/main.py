@@ -20,7 +20,6 @@ csv_buffer = deque(maxlen=500)
 arduino = serial.Serial("/dev/ttyUSB0", 115200, timeout=0.01)
 camera = Picamera2()
 camera.configure(camera.create_video_configuration({"size": (320, 240), "format": "RGB888"},controls={"FrameRate": 21}))
-camera.start()
 
 state = appstate.AppState()
 b2d = bytes2disk.Bytes2Disk(frame_buffer, csv_buffer)
@@ -33,5 +32,5 @@ def joystick_view():
 
 ui.run(title="GovernorBOT WebUI", reload=False, show=False)
 
-threading.Thread(target=b2d.save_frame, daemon=True).start()
-threading.Thread(target=b2d.save_csv, daemon=True).start()
+#threading.Thread(target=b2d.save_frame, daemon=True).start()
+#threading.Thread(target=b2d.save_csv, daemon=True).start()
