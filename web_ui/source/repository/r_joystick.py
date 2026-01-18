@@ -15,7 +15,6 @@ class JoystickRepo():
         self.csv_buffer = csvbuffer
         self.frame_id = 0
         self.frame_uuid = uuid.uuid1()
-        self.camera.start()
 
     def serial_write(self, y, x, rawy, rawx):
         self.arduino.write(f"{y},{x}\n".encode())
