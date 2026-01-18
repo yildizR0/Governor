@@ -1,3 +1,8 @@
+import os, sys
+dir_path = os.path.dirname(os.path.realpath(__file__))
+parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
+sys.path.insert(0, parent_dir_path)
+
 from picamera2 import Picamera2
 import os, random, threading, cv2, time, csv, serial
 from collections import deque
