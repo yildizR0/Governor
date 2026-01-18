@@ -5,7 +5,6 @@ sys.path.insert(0, parent_dir_path)
 
 import os
 import uuid
-import time
 
 class JoystickRepo():
     def __init__(self, arduino, camera, framebuffer, csvbuffer):
