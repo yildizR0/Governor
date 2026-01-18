@@ -15,7 +15,6 @@ class Bytes2Disk():
                 filename, frame = self.frame_buffer.popleft()
                 cv2.imwrite(filename, frame)
             else:
-                print("a")
                 time.sleep(0.01)
 
     def save_csv(self):
@@ -24,5 +23,4 @@ class Bytes2Disk():
                 filename, y, x = self.csv_buffer.popleft()
                 self.csv_writer.writerow([filename, y, x])
             else:
-                print("a")
                 time.sleep(0.01)
