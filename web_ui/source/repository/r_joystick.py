@@ -5,6 +5,7 @@ sys.path.insert(0, parent_dir_path)
 
 import os
 import uuid
+import time
 
 class JoystickRepo():
     def __init__(self, arduino, camera, framebuffer, csvbuffer):
@@ -17,11 +18,13 @@ class JoystickRepo():
         self.frame_uuid = uuid.uuid1()
 
     def serial_write(self, y, x, rawy, rawx):
+        self.arduino.flush()
         self.arduino.write(f"{y},{x}\n".encode())
         filename = f"frames/{self.frame_uuid}_frame_{self.frame_id:04d}.jpg"
         self.frame_buffer.append((filename, self.camera.capture_array()))
         self.csv_buffer.append((filename, rawy, rawx))
         self.frame_id += 1
+        time.sleep(0.1)
 
 
 
