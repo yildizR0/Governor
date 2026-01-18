@@ -43,7 +43,7 @@ class JoystickRepo():
             self.device.write(f"{y},{x}\n".encode())
             filename = f"frames/frame_{self.frame_id:04d}.jpg"
             self.writer.writerow([filename, rawy, rawx])
-            frame = self.camera.capture_array()
+            #frame = self.camera.capture_array()
             self.buffers.append((filename, frame))
             self.frame_id += 1
         except:
