@@ -24,7 +24,5 @@ class JoystickRepo():
         self.frame_buffer.append((filename, self.camera.capture_array()))
         self.csv_buffer.append((filename, rawy, rawx))
         self.frame_id += 1
-        time.sleep(0.1)
-
 
 
