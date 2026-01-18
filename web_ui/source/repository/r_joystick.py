@@ -40,15 +40,17 @@ class JoystickRepo():
                 filename, frame = self.buffers.popleft()
                 cv2.imwrite(filename, frame)
 
-    def serial_write(self, y,x, rawy, rawx):
-        try:
-            self.device.write(f"{y},{x}\n".encode())
-            filename = f"frames/{self.random_uuid}_frame_{self.frame_id:04d}.jpg"
-            self.writer.writerow([filename, rawy, rawx])
-            frame = self.camera.capture_array()
-            self.buffers.append((filename, frame))
-            self.frame_id += 1
-        except Exception as e:
-            print(e)
+    def capture_frame(self, filename):
+        self.buffers.append((filename, self.camera.capture_array()))
+
+    def write_csv(self, filename, y, x):
+        self.writer.writerow([filename, y, x])
+
+    def serial_write(self, y, x, rawy, rawx):
+        self.device.write(f"{y},{x}\n".encode())
+        filename = f"frames/{self.random_uuid}_frame_{self.frame_id:04d}.jpg"
+        self.capture_frame(filename)
+        self.write_csv(filename, rawy, rawx)
+        self.frame_id += 1
 
 
