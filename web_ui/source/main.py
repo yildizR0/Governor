@@ -14,8 +14,8 @@ state = appstate.AppState()
 repo_joystick = r_joystick.JoystickRepo()
 viewmodel_joystick = vm_joystick.JoystickViewModel(repo_joystick, state)
 
-def create_view():
+with ui.page('/joystick'):
     v_joystick.JoystickView(viewmodel_joystick)
 
-ui.run(title="GovernorBOT WebUI", reload=False, show=False, on_start=create_view)
+ui.run(title="GovernorBOT WebUI", reload=False, show=False)
 print("running")
