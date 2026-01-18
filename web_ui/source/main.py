@@ -33,5 +33,5 @@ def joystick_view():
 
 ui.run(title="GovernorBOT WebUI", reload=False, show=False)
 
-threading.Thread(target=b2d.save_frame, daemon=True).start()
-threading.Thread(target=b2d.save_csv, daemon=True).start()
+#threading.Thread(target=b2d.save_frame, daemon=True).start()
+#threading.Thread(target=b2d.save_csv, daemon=True).start()
