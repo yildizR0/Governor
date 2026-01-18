@@ -7,6 +7,5 @@ class JoystickViewModel():
         self.repo = repo
 
     def coordinates(self, x, y):
-        self.repo.serial_write(str(1500+(round(float(y)*-350))), str(1500+(round(float(x)*500))), float(y), float(x))
-        time.sleep(0.01)
+        self.repo.serial_write(str(1500+(round(float(y)*-400))), str(1500+(round(float(x)*500))), float(y), float(x))
 
