@@ -16,3 +16,4 @@ viewmodel_joystick = vm_joystick.JoystickViewModel(repo_joystick, state)
 view_joystick = v_joystick.JoystickView(viewmodel_joystick)
 
 ui.run(title="GovernorBOT WebUI", reload=False)
+print("running")
