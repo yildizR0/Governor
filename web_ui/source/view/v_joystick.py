@@ -8,7 +8,7 @@ class JoystickView():
         self.current_x = "0.000"
         self.current_y = "0.000"
         # Ein Timer, der standardmäßig nicht läuft (active=False)
-        self.update_timer = ui.timer(0.1, self.send_coordinates, active=False)
+        self.update_timer = ui.timer(0.01, self.send_coordinates, active=False)
         self.initiate_ui()
 
     def send_coordinates(self):
