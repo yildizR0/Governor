@@ -6,7 +6,7 @@ class Bytes2Disk():
         self.frame_buffer = framebuffer
         self.csv_buffer = csvbuffer
 
-        self.csv = open("collected.csv", "w", newline="")
+        self.csv = open("collected.csv", "a+", newline="")
         self.csv_writer = csv.writer(self.csv)
 
     def save_frame(self):
