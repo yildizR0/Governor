@@ -1,4 +1,5 @@
 from nicegui import ui
+import websockets
 
 class JoystickView():
     def __init__(self, vm):
